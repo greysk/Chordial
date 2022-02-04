@@ -1,35 +1,50 @@
 import pygame, pygame.mixer, random, os
-from hi import file_name
 from tkinter import *
 from tkinter import ttk
 from pygame import *
 from pathlib import Path
 
-Chordial = Path(r'C:\Users\bretm\source\repos\Chordial\Chord Templates\Midi Progressions')
+Chordial = (r'.\Chord Templates\Midi Progressions')
 os.chdir(Chordial)
-
 
 pygame.init()
 pygame.mixer.init()
 
-def run(): 
-        mysound = random.choice(os.listdir(r"C:\Users\bretm\source\repos\Chordial\Chord Templates\Midi Progressions"))
-        print(mysound)
+class Chordial:
+    #Calls the random module on the current working directory to return a '.mid' file
+    def run(self): 
+        mysound = random.choice(os.listdir())
+        self.file_label.config(text = mysound)
         pygame.mixer.music.load(mysound)
         pygame.mixer.music.play()
+        global file_to_open
+        file_to_open = mysound
+        return mysound;
 
-root = Tk()
-root.title("Chordial")
-frm = ttk.Frame(root, padding = 10)
-frm.grid()
-ttk.Label(frm, text = "Chord Progression Suggester:").grid(column = 0, row = 0)
-ttk.Button(frm, text = "Exit", command = root.destroy).grid(column = 2, row = 0)
-ttk.Button(frm, text = "Randomize", command = run).grid(column = 1, row = 0)
-#ttk.Label(frm, text = file_name).grid(column = 0, row = 0)
+    #Opens the chord progression in a new instance of the default program specified for '.mid' files
+    def open(self):
+        os.startfile(file_to_open)  
+     
+    #Used to replay the current audio file    
+    def replay(self):
+        pygame.mixer.music.load(file_to_open)
+        pygame.mixer.music.play()
+        return
 
-canvas = Canvas(root, width = 350, height = 175)
-canvas.create_text(180, 50, text = "Progression:", fill="black", font=('Helvetica 15 bold'))
-canvas.create_text(180, 70, text = file_name, fill="black", font=('Helvetica 15 bold'))
-canvas.grid(row = 2, column = 0)
+    def __init__(self):
+        self.root = Tk()
+        self.root.title("Chordial")
+        self.frm = ttk.Frame(self.root, padding = 10)
+        self.frm.grid()
+        ttk.Label(self.frm, text = "Chord Progression Suggester:", font = "Ubuntu").grid(column = 0, row = 0)
 
-root.mainloop()
+        ttk.Button(self.frm, text = "Randomize", command = self.run).grid(column = 1, row = 0)       
+        ttk.Button(self.frm, text = "Open in Default", command = self.open).grid(column = 2, row = 0)
+        ttk.Button(self.frm, text = "Exit", command = self.root.destroy).grid(column = 3, row = 0)     
+        ttk.Button(self.frm, text = "Play Again", command = self.replay).grid(column = 4, row = 0)
+        self.file_label = Label(self.root, text = "file name", font = 'Ubuntu')
+        self.file_label.grid(column = 0, row = 1)
+
+        self.root.mainloop()
+
+Chordial()
