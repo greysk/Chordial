@@ -1,7 +1,6 @@
-import pygame, pygame.mixer, random, os, threading, subprocess
-from tkinter import *
+import pygame, random, os
+import tkinter as tk
 from tkinter import ttk
-from pygame import *
 from pathlib import Path
 
 Chordial = Path('.\Midi Progressions')
@@ -40,7 +39,7 @@ class program_body:
 
         #main instance of the program 
     def __init__(self):
-        self.root = Tk()
+        self.root = tk.Tk()
         self.root.title("Chordial")
         self.frm = ttk.Frame(self.root, padding = 10)
         self.frm.grid()
@@ -49,7 +48,7 @@ class program_body:
         ttk.Button(self.frm, text = "Open in Default", command = self.open).grid(column = 2, row = 0)
         ttk.Button(self.frm, text = "Exit", command = self.root.destroy).grid(column = 3, row = 0)     
         ttk.Button(self.frm, text = "Play Again", command = self.replay).grid(column = 4, row = 0)
-        self.file_label = Label(self.root, text = "file name", font = 'Ubuntu')
+        self.file_label = tk.Label(self.root, text = "file name", font = 'Ubuntu')
         self.file_label.grid(column = 0, row = 1)
 
         self.root.mainloop()
