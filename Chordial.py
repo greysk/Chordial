@@ -12,28 +12,6 @@ pygame.mixer.init()
 
 
 class ProgramBody:
-    def run(self):
-        """
-        Select and play a random '.mid' file from the current working
-        directory as well as updates the label.
-        """
-        mysound = random.choice(os.listdir())
-        pygame.mixer.music.load(mysound)
-        pygame.mixer.music.play()
-        self.file_to_open = mysound
-        self.file_label.config(text=mysound.replace('.mid', ''))
-
-    def open(self):
-        """
-        Opens the chord progression in a new instance of the default program
-        specified for '.mid' files.
-        """
-        os.startfile(self.file_to_open)
-
-    def replay(self):
-        """Used to replay the current audio file."""
-        pygame.mixer.music.play()
-
     def __init__(self):
         """Main instance of the program."""
         self.root = tk.Tk()
@@ -56,6 +34,28 @@ class ProgramBody:
         self.file_to_open = None
 
         self.root.mainloop()
+
+    def run(self):
+        """
+        Select and play a random '.mid' file from the current working
+        directory as well as updates the label.
+        """
+        mysound = random.choice(os.listdir())
+        pygame.mixer.music.load(mysound)
+        pygame.mixer.music.play()
+        self.file_to_open = mysound
+        self.file_label.config(text=mysound.replace('.mid', ''))
+
+    def open(self):
+        """
+        Opens the chord progression in a new instance of the default program
+        specified for '.mid' files.
+        """
+        os.startfile(self.file_to_open)
+
+    def replay(self):
+        """Used to replay the current audio file."""
+        pygame.mixer.music.play()
 
 
 ProgramBody()
