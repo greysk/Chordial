@@ -64,8 +64,8 @@ class ProgramBody(ttk.Frame):
         # Play again button - Starts playing current sound from the beginning.
         ttk.Button(self, text="Play Again", command=self.replay
                    ).grid(column=3, row=0)
-        # Exit button - closes Tkinter window.
-        ttk.Button(self, text="Exit", command=self.root.destroy
+        # Remove from Suggestions button - Removes sound from sound_files list
+        ttk.Button(self, text='Remove from Suggestions', command=self.remove
                    ).grid(column=4, row=0)
 
     def select_file(self):
@@ -95,6 +95,15 @@ class ProgramBody(ttk.Frame):
         """
         if self.file_to_open is not None:
             pygame.mixer.music.play()
+            
+    def remove(self):
+        """Remove current chord progression from suggestions list.
+        
+        Does not delete file or affect filesystem. And will not apply
+        to any future runs of the Chordial program.
+        """
+        if self.file_to_open is not None:
+            self.sound_files.remove(self.mysound)
 
 
 if __name__ == '__main__'':
