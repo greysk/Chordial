@@ -54,16 +54,21 @@ class ProgramBody:
         ttk.Button(self.frm, text="Exit", command=self.root.destroy
                    ).grid(column=3, row=0)
 
+    def select_file(self):
+        """Select a random .mid file from chords_dir. Update filename label.
+        """
+        self.file_to_open = random.choice(self.sound_files)
+        # Set current sound label in Tkinter window
+        self.file_label.set(self.file_to_open)
+        
     def run(self):
+        """Play random sound from chords_dir and update filename label.
+        
+        Uses self.select_sound().
         """
-        Select and play a random '.mid' file from the current working
-        directory as well as updates the label.
-        """
-        mysound = random.choice(self.sound_files)
+        self.select_sound()
         pygame.mixer.music.load(mysound)
         pygame.mixer.music.play()
-        self.file_to_open = mysound
-        self.file_label.set(self.mysound.stem)
 
     def open(self):
         """
