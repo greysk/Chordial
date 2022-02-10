@@ -11,9 +11,23 @@ import pygame
 CHORDIAL = Path(__file__).parents[1] / 'Midi Progressions'
 
 
-class ProgramBody:
-    def __init__(self, midi_directory):
-        """Main instance of the program."""
+class ProgramBody(ttk.Frame):
+    def __init__(self, midi_directory, title='Chordial'):
+        """
+        Sets up pygame and Tkinter for Chordial: chord progression suggester.
+        With Chordial you can select and play random .mid from chords_dir.
+        It also allows you to conveniently open a selected .mid file using the
+        default program for .mid files.
+        Chordial program can be run by calling mainloop() on an instance of this class.
+        Args:
+            root (tk.Tk): Master object for Tkinter window.
+            title (str): Title for root tk window.
+            framepadding (int): Same as ttk.Frame(padding)
+            chords_dir (Pathlike, optional):
+                Path to directory containing chord progression .mid file.
+                Defaults to CHORDIAL.
+        """
+        super().__init__(master=tk.Tk(), padding=10)
        
         # All .mid files in Midi Progressions.
         self.sound_files = list(Path(midi_dir).glob('*.mid'))
@@ -24,10 +38,9 @@ class ProgramBody:
         self.file_label = StringVar()
         
         # Set up basics for Tkinter
-        self.root = tk.Tk()
-        self.root.title("Chordial")
-        self.frm = ttk.Frame(self.root, padding=10)
-        self.frm.grid()
+        self.root = root
+        self.root.title(title)
+        self.grid()
         self._create_widgets()
         
         # Initialize pygame.music needed by self.run() and self.replay()
@@ -37,22 +50,26 @@ class ProgramBody:
         self.root.mainloop()
     
     def _create_widgets(self):
-        """Set up Tkinter window buttons and labels.
+        """Set up Tkinter window labels and buttons.
         """
-        ttk.Label(self.frm, text="Chord Progression Suggester:", font="Ubuntu"
+        ttk.Label(self, text="Chord Progression Suggester:", font="Ubuntu"
                   ).grid(column=0, row=0)
         # Label for chord progression filename.
         tk.Label(self.root, text="file name", textvariable=self.file_label,
                  font='Ubuntu').grid(column=0, row=1)
+        
         # Randomize button - selects current sound.
-        ttk.Button(self.frm, text="Randomize", command=self.run
+        ttk.Button(self, text="Randomize", command=self.run
                    ).grid(column=1, row=0)
         # Open in default button - opens current sound using default program.
-        ttk.Button(self.frm, text="Open in Default", command=self.open
+        ttk.Button(self, text="Open in Default", command=self.open
                    ).grid(column=2, row=0)
-        # Exit button - closes Tkinter window.
-        ttk.Button(self.frm, text="Exit", command=self.root.destroy
+        # Play again button - Starts playing current sound from the beginning.
+        ttk.Button(self, text="Play Again", command=self.replay
                    ).grid(column=3, row=0)
+        # Exit button - closes Tkinter window.
+        ttk.Button(self, text="Exit", command=self.root.destroy
+                   ).grid(column=4, row=0)
 
     def select_file(self):
         """Select a random .mid file from chords_dir. Update filename label.
