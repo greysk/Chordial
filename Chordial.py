@@ -1,9 +1,10 @@
-import pygame
 import random
 import os
 import tkinter as tk
-from tkinter import ttk
+from tkinter import ttk, StringVar
 from pathlib import Path
+
+import pygame
 
 CHORDIAL = Path('./Midi Progressions')
 os.chdir(CHORDIAL)
