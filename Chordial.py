@@ -30,8 +30,12 @@ class ProgramBody:
                    ).grid(column=3, row=0)
         ttk.Button(self.frm, text="Play Again", command=self.replay
                    ).grid(column=4, row=0)
-        self.file_label = tk.Label(self.root, text="file name", font='Ubuntu')
-        self.file_label.grid(column=0, row=1)
+        
+        # Used in self.select_sound() to automatically update Frame label.
+        self.file_label = StringVar()
+        # Label for chord progression filename.
+        tk.Label(self.root, text="file name", textvariable=self.file_label,
+                 font='Ubuntu').grid(column=0, row=1)
         
         # All .mid files in Midi Progressions.
         self.sound_files = list(Path(midi_dir).glob('*.mid'))
@@ -49,7 +53,7 @@ class ProgramBody:
         pygame.mixer.music.load(mysound)
         pygame.mixer.music.play()
         self.file_to_open = mysound
-        self.file_label.config(text=mysound.stem)
+        self.file_label.set(self.mysound.stem)
 
     def open(self):
         """
