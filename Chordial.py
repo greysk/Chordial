@@ -49,7 +49,7 @@ class ProgramBody:
         pygame.mixer.music.load(mysound)
         pygame.mixer.music.play()
         self.file_to_open = mysound
-        pygame.mixer.music.load(self.mysound, "mid")
+        self.file_label.config(text=mysound.stem)
 
     def open(self):
         """
