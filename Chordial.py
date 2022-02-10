@@ -98,6 +98,7 @@ class ProgramBody(ttk.Frame):
             pygame.mixer.music.play()
 
 
-chordial_app = ProgramBody(midi_directory=CHORDIAL)
-# Run cordial application loop.
-chordial_app.mainloop()
+if __name__ == '__main__'':
+    chordial_app = ProgramBody(midi_directory=CHORDIAL)
+    # Run cordial application loop.
+    chordial_app.mainloop()
