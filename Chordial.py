@@ -92,11 +92,13 @@ class ProgramBody(ttk.Frame):
         Opens the chord progression in a new instance of the default program
         specified for '.mid' files.
         """
-        os.startfile(self.file_to_open)
+        if self.file_to_open is not None:
+            os.startfile(self.file_to_open)
 
     def replay(self):
         """Used to replay the current audio file."""
-        pygame.mixer.music.play()
+        if self.file_to_open is not None:
+            pygame.mixer.music.play()
 
 
 ProgramBody(midi_directory=CHORDIAL)
