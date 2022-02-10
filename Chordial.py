@@ -45,9 +45,6 @@ class ProgramBody(ttk.Frame):
         
         # Initialize pygame.music needed by self.run() and self.replay()
         pygame.mixer.init()
-        
-        # Run Tk().mainloop()
-        self.root.mainloop()
     
     def _create_widgets(self):
         """Set up Tkinter window labels and buttons.
@@ -101,4 +98,6 @@ class ProgramBody(ttk.Frame):
             pygame.mixer.music.play()
 
 
-ProgramBody(midi_directory=CHORDIAL)
+chordial_app = ProgramBody(midi_directory=CHORDIAL)
+# Run cordial application loop.
+chordial_app.mainloop()
