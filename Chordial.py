@@ -1,12 +1,14 @@
-import pygame
 import random
 import os
 import tkinter as tk
-from tkinter import ttk
+from tkinter import ttk, StringVar
 from pathlib import Path
 
-CHORDIAL = Path('./Midi Progressions')
-os.chdir(CHORDIAL)
+import pygame
+
+# Absolute path to the directory containing chord progression files.
+# The equivalent relative path is './Midi Progressions"
+CHORDIAL = Path(__file__).parents[1] / 'Midi Progressions'
 
 pygame.mixer.init()
 
@@ -31,6 +33,9 @@ class ProgramBody:
         self.file_label = tk.Label(self.root, text="file name", font='Ubuntu')
         self.file_label.grid(column=0, row=1)
         
+        # All .mid files in Midi Progressions.
+        self.sound_files = list(self.chords_dir.glob('*.mid'))
+        
         self.file_to_open = None
 
         self.root.mainloop()
@@ -44,7 +49,7 @@ class ProgramBody:
         pygame.mixer.music.load(mysound)
         pygame.mixer.music.play()
         self.file_to_open = mysound
-        self.file_label.config(text=mysound.replace('.mid', ''))
+        pygame.mixer.music.load(self.mysound, "mid")
 
     def open(self):
         """
