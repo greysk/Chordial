@@ -45,7 +45,7 @@ class ProgramBody:
         Select and play a random '.mid' file from the current working
         directory as well as updates the label.
         """
-        mysound = random.choice(os.listdir())
+        mysound = random.choice(self.sound_files)
         pygame.mixer.music.load(mysound)
         pygame.mixer.music.play()
         self.file_to_open = mysound
