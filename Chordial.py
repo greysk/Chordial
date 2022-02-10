@@ -14,7 +14,7 @@ pygame.mixer.init()
 
 
 class ProgramBody:
-    def __init__(self):
+    def __init__(self, midi_directory):
         """Main instance of the program."""
         self.root = tk.Tk()
         self.root.title("Chordial")
@@ -34,7 +34,7 @@ class ProgramBody:
         self.file_label.grid(column=0, row=1)
         
         # All .mid files in Midi Progressions.
-        self.sound_files = list(self.chords_dir.glob('*.mid'))
+        self.sound_files = list(Path(midi_dir).glob('*.mid'))
         
         self.file_to_open = None
 
@@ -63,4 +63,4 @@ class ProgramBody:
         pygame.mixer.music.play()
 
 
-ProgramBody()
+ProgramBody(midi_directory=CHORDIAL)
