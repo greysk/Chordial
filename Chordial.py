@@ -15,29 +15,29 @@ class ProgramBody(ttk.Frame):
     def __init__(self, midi_directory, title='Chordial'):
         """
         Sets up pygame and Tkinter for Chordial: chord progression suggester.
-        With Chordial you can select and play random .mid from chords_dir.
+        
+        With Chordial you can select and play random .mid from chords_dir.        
         It also allows you to conveniently open a selected .mid file using the
         default program for .mid files.
+        
         Chordial program can be run by calling mainloop() on an instance of this class.
+  
         Args:
-            root (tk.Tk): Master object for Tkinter window.
-            title (str): Title for root tk window.
-            framepadding (int): Same as ttk.Frame(padding)
-            chords_dir (Pathlike, optional):
+            chords_dir (Pathlike):
                 Path to directory containing chord progression .mid file.
-                Defaults to CHORDIAL.
+            title (str, optional): Title for root tk window. Defaults to 'Chordial'.
         """
         super().__init__(master=tk.Tk(), padding=10)
        
         # All .mid files in Midi Progressions.
         self.sound_files = list(Path(midi_dir).glob('*.mid'))
         
-        # Set by self.run() to hold current chord progression.
+        # Set by self.select_file() to hold current chord progression.
         self.file_to_open = None
-        # Used in self.run() to automatically update Frame label.
+        # Used in self.select_file() to automatically update Frame label.
         self.file_label = StringVar()
         
-        # Set up basics for Tkinter
+        # Set up basics for Tkinter.
         self.root = root
         self.root.title(title)
         self.grid()
@@ -78,22 +78,21 @@ class ProgramBody(ttk.Frame):
     def run(self):
         """Play random sound from chords_dir and update filename label.
         
-        Uses self.select_sound().
+        Uses self.select_file().
         """
-        self.select_sound()
+        self.select_file()
         pygame.mixer.music.load(mysound)
         pygame.mixer.music.play()
 
     def open(self):
-        """
-        Opens the chord progression in a new instance of the default program
-        specified for '.mid' files.
+        """Open chord progression in the default program for .mid files.
         """
         if self.file_to_open is not None:
             os.startfile(self.file_to_open)
 
     def replay(self):
-        """Used to replay the current audio file."""
+        """Replay the current chord progression.
+        """
         if self.file_to_open is not None:
             pygame.mixer.music.play()
 
