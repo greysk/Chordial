@@ -17,11 +17,11 @@ class ProgramBody:
         Select and play a random '.mid' file from the current working
         directory as well as updates the label.
         """
-        self.mysound = random.choice(os.listdir())
-        pygame.mixer.music.load(self.mysound)
+        mysound = random.choice(os.listdir())
+        pygame.mixer.music.load(mysound)
         pygame.mixer.music.play()
-        self.file_to_open = self.mysound
-        self.file_label.config(text=self.mysound.replace('.mid', ''))
+        self.file_to_open = mysound
+        self.file_label.config(text=mysound.replace('.mid', ''))
 
     def open(self):
         """
@@ -52,6 +52,8 @@ class ProgramBody:
                    ).grid(column=4, row=0)
         self.file_label = tk.Label(self.root, text="file name", font='Ubuntu')
         self.file_label.grid(column=0, row=1)
+        
+        self.file_to_open = None
 
         self.root.mainloop()
 
