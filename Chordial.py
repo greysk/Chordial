@@ -10,39 +10,49 @@ import pygame
 # The equivalent relative path is './Midi Progressions"
 CHORDIAL = Path(__file__).parents[1] / 'Midi Progressions'
 
-pygame.mixer.init()
-
 
 class ProgramBody:
     def __init__(self, midi_directory):
         """Main instance of the program."""
+       
+        # All .mid files in Midi Progressions.
+        self.sound_files = list(Path(midi_dir).glob('*.mid'))
+        
+        # Set by self.run() to hold current chord progression.
+        self.file_to_open = None
+        # Used in self.run() to automatically update Frame label.
+        self.file_label = StringVar()
+        
+        # Set up basics for Tkinter
         self.root = tk.Tk()
         self.root.title("Chordial")
         self.frm = ttk.Frame(self.root, padding=10)
         self.frm.grid()
+        self._create_widgets()
+        
+        # Initialize pygame.music needed by self.run() and self.replay()
+        pygame.mixer.init()
+        
+        # Run Tk().mainloop()
+        self.root.mainloop()
+    
+    def _create_widgets(self):
+        """Set up Tkinter window buttons and labels.
+        """
         ttk.Label(self.frm, text="Chord Progression Suggester:", font="Ubuntu"
                   ).grid(column=0, row=0)
-        ttk.Button(self.frm, text="Randomize", command=self.run).grid(column=1,
-                                                                      row=0)
-        ttk.Button(self.frm, text="Open in Default", command=self.open
-                   ).grid(column=2, row=0)
-        ttk.Button(self.frm, text="Exit", command=self.root.destroy
-                   ).grid(column=3, row=0)
-        ttk.Button(self.frm, text="Play Again", command=self.replay
-                   ).grid(column=4, row=0)
-        
-        # Used in self.select_sound() to automatically update Frame label.
-        self.file_label = StringVar()
         # Label for chord progression filename.
         tk.Label(self.root, text="file name", textvariable=self.file_label,
                  font='Ubuntu').grid(column=0, row=1)
-        
-        # All .mid files in Midi Progressions.
-        self.sound_files = list(Path(midi_dir).glob('*.mid'))
-        
-        self.file_to_open = None
-
-        self.root.mainloop()
+        # Randomize button - selects current sound.
+        ttk.Button(self.frm, text="Randomize", command=self.run
+                   ).grid(column=1, row=0)
+        # Open in default button - opens current sound using default program.
+        ttk.Button(self.frm, text="Open in Default", command=self.open
+                   ).grid(column=2, row=0)
+        # Exit button - closes Tkinter window.
+        ttk.Button(self.frm, text="Exit", command=self.root.destroy
+                   ).grid(column=3, row=0)
 
     def run(self):
         """
