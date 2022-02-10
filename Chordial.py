@@ -5,38 +5,37 @@ import tkinter as tk
 from tkinter import ttk
 from pathlib import Path
 
-Chordial = Path('./Midi Progressions')
-os.chdir(Chordial)
+CHORDIAL = Path('./Midi Progressions')
+os.chdir(CHORDIAL)
 
-pygame.init()
 pygame.mixer.init()
 
 
-class program_body:
-    # Selects and plays a random '.mid' file from the current working
-    # directory as well as updates the label
-    def run(self, *args):
+class ProgramBody:
+    def run(self):
+        """
+        Select and play a random '.mid' file from the current working
+        directory as well as updates the label.
+        """
         self.mysound = random.choice(os.listdir())
-        self.file_label.config(text=self.mysound)
         pygame.mixer.music.load(self.mysound)
         pygame.mixer.music.play()
         self.file_to_open = self.mysound
         self.file_label.config(text=self.mysound.replace('.mid', ''))
-        return self.file_label
 
-    # Opens the chord progression in a new instance of the default program
-    # specified for '.mid' files
-    def open(self, args=(1)):
+    def open(self):
+        """
+        Opens the chord progression in a new instance of the default program
+        specified for '.mid' files.
+        """
         os.startfile(self.file_to_open)
 
-    # Used to replay the current audio file
-    def replay(self, *args):
-        pygame.mixer.music.load(self.file_to_open)
+    def replay(self):
+        """Used to replay the current audio file."""
         pygame.mixer.music.play()
-        return
 
-    # main instance of the program
     def __init__(self):
+        """Main instance of the program."""
         self.root = tk.Tk()
         self.root.title("Chordial")
         self.frm = ttk.Frame(self.root, padding=10)
@@ -57,4 +56,4 @@ class program_body:
         self.root.mainloop()
 
 
-program_body()
+ProgramBody()
